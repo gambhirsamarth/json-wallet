@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import Header from "./components/Header";
 import AddJsonForm from "./components/AddJsonForm";
-import WalletList from "./components/WalletList";
-import WalletDetails from "./components/WalletDetails";
+import Modal from "./components/Modal";
 
 const App = () => {
   const [wallet, setWallet] = useState({});
-  const [selectedLabel, setSelectedLabel] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleAddJson = (label, json) => {
     if (wallet[label]) {
@@ -17,26 +16,26 @@ const App = () => {
     setWallet((prev) => ({ ...prev, [label]: json }));
   };
 
-  const handleSelectLabel = (label) => {
-    setSelectedLabel(label);
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-800 via-teal-700 to-pink-600 p-8">
-  <Header />
-  
-  {/* Form Section */}
-  <div className="max-w-3xl w-full bg-white rounded-2xl shadow-lg p-8 mx-auto mb-8">
-    <AddJsonForm onAdd={handleAddJson} />
-  </div>
-  
-  {/* JSON Wallet Section */}
-  <div className="max-w-3xl w-full bg-white rounded-2xl shadow-lg p-8 mx-auto">
-    <h2 className="text-3xl font-semibold mb-6 text-gray-700">Your JSON Wallet</h2>
-    <WalletList wallet={wallet} onSelect={handleSelectLabel} />
-    <WalletDetails selectedLabel={selectedLabel} wallet={wallet} />
-  </div>
-</div>
+      <Header />
+      <AddJsonForm onAdd={handleAddJson} />
+      
+      <div className="max-w-3xl mx-auto text-center mt-6">
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="bg-white hover:bg-gray-100 text-gray-800 font-semibold px-8 py-3 rounded-xl shadow-lg transition-colors"
+        >
+          View Wallet {Object.keys(wallet).length > 0 && `(${Object.keys(wallet).length})`}
+        </button>
+      </div>
+      
+      <Modal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        wallet={wallet}
+      />
+    </div>
   );
 };
 

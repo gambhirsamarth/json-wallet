@@ -22,15 +22,21 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-600 via-blue-500 to-teal-400 p-6 text-white">
-      <Header />
-      <AddJsonForm onAdd={handleAddJson} />
-      <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-6 mt-8 text-gray-800">
-        <h2 className="text-2xl font-bold mb-4">Your JSON Wallet</h2>
-        <WalletList wallet={wallet} onSelect={handleSelectLabel} />
-        <WalletDetails selectedLabel={selectedLabel} wallet={wallet} />
-      </div>
-    </div>
+    <div className="min-h-screen bg-gradient-to-br from-purple-800 via-teal-700 to-pink-600 p-8">
+  <Header />
+  
+  {/* Form Section */}
+  <div className="max-w-3xl w-full bg-white rounded-2xl shadow-lg p-8 mx-auto mb-8">
+    <AddJsonForm onAdd={handleAddJson} />
+  </div>
+  
+  {/* JSON Wallet Section */}
+  <div className="max-w-3xl w-full bg-white rounded-2xl shadow-lg p-8 mx-auto">
+    <h2 className="text-3xl font-semibold mb-6 text-gray-700">Your JSON Wallet</h2>
+    <WalletList wallet={wallet} onSelect={handleSelectLabel} />
+    <WalletDetails selectedLabel={selectedLabel} wallet={wallet} />
+  </div>
+</div>
   );
 };
 

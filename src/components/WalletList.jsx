@@ -7,7 +7,7 @@ const WalletList = ({ wallet, onSelect }) => {
         <button
           key={label}
           onClick={() => onSelect(label)}
-          className="block w-full text-left p-3 bg-purple-100 text-purple-800 font-bold rounded hover:bg-purple-200"
+          className="block w-full text-left p-4 rounded-xl bg-purple-100 text-purple-800 font-semibold hover:bg-purple-200 transition-all"
         >
           {label}
         </button>

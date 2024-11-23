@@ -2,7 +2,7 @@ import React from "react";
 
 const Header = () => {
   return (
-    <header className="max-w-3xl mx-auto text-center mb-8">
+    <header className="text-center px-8">
       <h1 className="text-5xl font-extrabold tracking-wide text-white">
         JSON Wallet
       </h1>

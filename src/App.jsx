@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import AddJsonForm from "./components/AddJsonForm";
 import Modal from "./components/Modal";
@@ -7,21 +7,38 @@ const App = () => {
   const [wallet, setWallet] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  useEffect(() => {
+    // Load all JSONs from localStorage into wallet on initialization
+    const keys = Object.keys(localStorage).filter((key) =>
+      key.startsWith("jsonWallet_")
+    );
+    const loadedWallet = keys.reduce((acc, key) => {
+      const label = key.replace("jsonWallet_", "");
+      acc[label] = localStorage.getItem(key);
+      return acc;
+    }, {});
+    setWallet(loadedWallet);
+  }, []);
+
   const handleAddJson = (label, json) => {
-    if (wallet[label]) {
+    if (localStorage.getItem(`jsonWallet_${label}`)) {
       alert("A JSON with this label already exists!");
       return;
     }
+
+    localStorage.setItem(`jsonWallet_${label}`, json);
 
     setWallet((prev) => ({ ...prev, [label]: json }));
   };
 
   const handleDeleteJson = (label) => {
     if (window.confirm(`Are you sure you want to delete "${label}"?`)) {
+      localStorage.removeItem(`jsonWallet_${label}`);
+
       setWallet((prev) => {
-        const newWallet = { ...prev };
-        delete newWallet[label];
-        return newWallet;
+        const updatedWallet = { ...prev };
+        delete updatedWallet[label];
+        return updatedWallet;
       });
     }
   };

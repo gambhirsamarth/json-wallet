@@ -44,7 +44,10 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-800 via-teal-700 to-pink-600 flex flex-col justify-between py-16">
+    <div className="min-h-screen flex flex-col justify-between py-16 relative">
+      {/* Liquid Background */}
+      <div className="liquid-background"></div>
+
       <Header />
 
       <div className="flex-1 flex items-center justify-center px-8">

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Copy, Trash2, Check } from "lucide-react";
+import { Copy, Trash2, Check, ChevronDown, ChevronRight } from "lucide-react";
 
 const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
   const [selectedJson, setSelectedJson] = useState(null);
   const [copiedLabel, setCopiedLabel] = useState(null);
+  const [collapsedSections, setCollapsedSections] = useState({});
 
   if (!isOpen) return null;
 
@@ -19,6 +20,57 @@ const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
     } catch (err) {
       console.error("Failed to copy:", err);
     }
+  };
+
+  const toggleCollapse = (path) => {
+    setCollapsedSections((prev) => ({
+      ...prev,
+      [path]: !prev[path],
+    }));
+  };
+
+  const renderJson = (data, path = "") => {
+    if (typeof data !== "object" || data === null) {
+      return <span>{JSON.stringify(data)}</span>;
+    }
+
+    const isArray = Array.isArray(data);
+
+    return (
+      <div className="pl-4 border-l border-gray-200">
+        {Object.keys(data).map((key, index) => {
+          const itemPath = path ? `${path}.${key}` : key;
+          const value = data[key];
+          const isCollapsible = typeof value === "object" && value !== null;
+
+          return (
+            <div key={itemPath} className="mb-2">
+              <div className="flex items-center gap-1">
+                {isCollapsible && (
+                  <button
+                    onClick={() => toggleCollapse(itemPath)}
+                    className="text-gray-600 hover:text-gray-900 focus:outline-none"
+                  >
+                    {collapsedSections[itemPath] ? (
+                      <ChevronRight className="w-4 h-4" />
+                    ) : (
+                      <ChevronDown className="w-4 h-4" />
+                    )}
+                  </button>
+                )}
+                <span className="font-medium">{isArray ? `[${key}]` : `"${key}"`}:</span>
+                {!isCollapsible && (
+                  <span className="ml-2 text-gray-700">{JSON.stringify(value)}</span>
+                )}
+              </div>
+              {isCollapsible && !collapsedSections[itemPath] && (
+                <div className="pl-4">{renderJson(value, itemPath)}</div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    );
   };
 
   return (
@@ -79,9 +131,9 @@ const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
                   </div>
                 </div>
                 {selectedJson === label && (
-                  <pre className="bg-gray-100 p-4 overflow-x-auto text-sm border-t">
-                    {JSON.stringify(JSON.parse(wallet[label]), null, 2)}
-                  </pre>
+                  <div className="bg-gray-100 p-4 overflow-x-auto text-sm border-t">
+                    {renderJson(JSON.parse(wallet[label]))}
+                  </div>
                 )}
               </div>
             ))}

@@ -2,29 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Liquid Background animation with slower transition */
+/* Define color variables */
+:root {
+  --gradient-light: linear-gradient(45deg, #7e4fe2, #26c6b7, #f39c9e);
+  --gradient-dark: linear-gradient(45deg, #0e2a47, #2c3e50, #8e44ad);
+}
+
 @keyframes liquidMotion {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-  
-  /* Apply the liquid gradient to the entire background */
-  .liquid-background {
-    position: fixed;  /* Keep it behind everything */
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, #7e4fe2, #26c6b7, #f39c9e); /* Previous color scheme */
-    background-size: 400% 400%;
-    animation: liquidMotion 20s ease infinite; /* Slowed down to 20s */
-    z-index: -1;  /* Position behind all content */
-  }
-  
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Base styles for light mode */
+.liquid-background {
+  @apply fixed inset-0 -z-10;
+  background: var(--gradient-light);
+  background-size: 400% 400%;
+  animation: liquidMotion 20s ease infinite;
+  transition: background 0.3s ease;
+}
+
+/* Dark mode styles */
+html.dark .liquid-background {
+  background: var(--gradient-dark);
+}
+
+/* Smooth transitions for theme changes */
+.theme-transition {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+/* Global transition styles */
+body {
+  @apply transition-colors duration-300;
+}

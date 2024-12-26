@@ -31,13 +31,13 @@ const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
 
   const renderJson = (data, path = "") => {
     if (typeof data !== "object" || data === null) {
-      return <span>{JSON.stringify(data)}</span>;
+      return <span className="text-gray-700 dark:text-gray-300">{JSON.stringify(data)}</span>;
     }
 
     const isArray = Array.isArray(data);
 
     return (
-      <div className="pl-4 border-l border-gray-200">
+      <div className="pl-4 border-l border-gray-200 dark:border-gray-600">
         {Object.keys(data).map((key, index) => {
           const itemPath = path ? `${path}.${key}` : key;
           const value = data[key];
@@ -49,7 +49,8 @@ const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
                 {isCollapsible && (
                   <button
                     onClick={() => toggleCollapse(itemPath)}
-                    className="text-gray-600 hover:text-gray-900 focus:outline-none"
+                    className="text-gray-600 dark:text-gray-400 hover:text-gray-900 
+                      dark:hover:text-gray-200 focus:outline-none"
                   >
                     {collapsedSections[itemPath] ? (
                       <ChevronRight className="w-4 h-4" />
@@ -58,9 +59,13 @@ const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
                     )}
                   </button>
                 )}
-                <span className="font-medium">{isArray ? `[${key}]` : `"${key}"`}:</span>
+                <span className="font-medium text-gray-900 dark:text-gray-100">
+                  {isArray ? `[${key}]` : `"${key}"`}:
+                </span>
                 {!isCollapsible && (
-                  <span className="ml-2 text-gray-700">{JSON.stringify(value)}</span>
+                  <span className="ml-2 text-gray-700 dark:text-gray-300">
+                    {JSON.stringify(value)}
+                  </span>
                 )}
               </div>
               {isCollapsible && !collapsedSections[itemPath] && (
@@ -80,58 +85,67 @@ const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
         onClick={onClose}
       />
 
-      <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl min-h-[80vh] bg-white rounded-2xl shadow-xl p-6 z-50 flex flex-col">
+      <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 
+        w-full max-w-2xl min-h-[80vh] bg-white dark:bg-gray-800 rounded-2xl 
+        shadow-xl p-6 z-50 flex flex-col transition-colors">
         <button
           onClick={onClose}
-          className="absolute right-6 top-6 text-gray-500 hover:text-gray-700"
+          className="absolute right-6 top-6 text-gray-500 dark:text-gray-400 
+            hover:text-gray-700 dark:hover:text-gray-300"
         >
           ✕
         </button>
 
-        <h2 className="text-3xl font-bold text-gray-800 text-center mt-4 mb-8">
+        <h2 className="text-3xl font-bold text-gray-800 dark:text-white text-center mt-4 mb-8">
           Your JSON Wallet
         </h2>
 
         {Object.keys(wallet).length === 0 ? (
           <div className="flex-1 flex items-center justify-center">
-            <p className="text-gray-500 text-lg">
+            <p className="text-gray-500 dark:text-gray-400 text-lg">
               Your wallet is empty. Add some JSONs to get started!
             </p>
           </div>
         ) : (
           <div className="space-y-4 max-h-[60vh] overflow-y-auto px-4">
             {Object.keys(wallet).map((label) => (
-              <div key={label} className="border border-gray-200 rounded-lg">
-                <div className="flex items-center justify-between px-4 py-3 bg-gray-50 rounded-t-lg">
+              <div key={label} className="border border-gray-200 dark:border-gray-600 rounded-lg">
+                <div className="flex items-center justify-between px-4 py-3 
+                  bg-gray-50 dark:bg-gray-700 rounded-t-lg">
                   <button
                     onClick={() => handleJsonClick(label)}
-                    className="font-medium text-purple-700 hover:text-purple-900 transition-colors flex-1 text-left"
+                    className="font-medium text-purple-700 dark:text-purple-400 
+                      hover:text-purple-900 dark:hover:text-purple-300 
+                      transition-colors flex-1 text-left"
                   >
                     {label}
                   </button>
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => handleCopy(label)}
-                      className="p-2 hover:bg-gray-200 rounded-lg transition-colors"
+                      className="p-2 hover:bg-gray-200 dark:hover:bg-gray-600 
+                        rounded-lg transition-colors"
                       title="Copy JSON"
                     >
                       {copiedLabel === label ? (
-                        <Check className="w-4 h-4 text-green-600" />
+                        <Check className="w-4 h-4 text-green-600 dark:text-green-400" />
                       ) : (
-                        <Copy className="w-4 h-4 text-gray-600" />
+                        <Copy className="w-4 h-4 text-gray-600 dark:text-gray-400" />
                       )}
                     </button>
                     <button
                       onClick={() => onDelete(label)}
-                      className="p-2 hover:bg-gray-200 rounded-lg transition-colors"
+                      className="p-2 hover:bg-gray-200 dark:hover:bg-gray-600 
+                        rounded-lg transition-colors"
                       title="Delete JSON"
                     >
-                      <Trash2 className="w-4 h-4 text-red-600" />
+                      <Trash2 className="w-4 h-4 text-red-600 dark:text-red-400" />
                     </button>
                   </div>
                 </div>
                 {selectedJson === label && (
-                  <div className="bg-gray-100 p-4 overflow-x-auto text-sm border-t">
+                  <div className="bg-gray-100 dark:bg-gray-900 p-4 overflow-x-auto 
+                    text-sm border-t border-gray-200 dark:border-gray-600">
                     {renderJson(JSON.parse(wallet[label]))}
                   </div>
                 )}

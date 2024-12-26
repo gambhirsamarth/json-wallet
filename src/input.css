@@ -2,38 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Define color variables */
-:root {
-  --gradient-light: linear-gradient(45deg, #7e4fe2, #26c6b7, #f39c9e);
-  --gradient-dark: linear-gradient(45deg, #0e2a47, #2c3e50, #8e44ad);
-}
-
+/* Liquid Background animation with slower transition */
 @keyframes liquidMotion {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
-/* Base styles for light mode */
+/* Apply the liquid gradient to the entire background */
 .liquid-background {
-  @apply fixed inset-0 -z-10;
-  background: var(--gradient-light);
+  position: fixed;  /* Keep it behind everything */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, #7e4fe2, #26c6b7, #f39c9e); /* Light mode colors */
+  background-size: 400% 400%;
+  animation: liquidMotion 20s ease infinite; /* Slowed down to 20s */
+  z-index: -1;  /* Position behind all content */
+}
+
+/* Custom Dark Mode Styles */
+html.dark .liquid-background {
+  background: linear-gradient(45deg, #0e2a47, #2c3e50, #8e44ad); /* Dark mode colors */
   background-size: 400% 400%;
   animation: liquidMotion 20s ease infinite;
-  transition: background 0.3s ease;
 }
 
-/* Dark mode styles */
-html.dark .liquid-background {
-  background: var(--gradient-dark);
+/* Additional Dark Mode Styles */
+html.dark {
+  /* Set background and text color for the whole page */
+  background-color: #121212;
+  color: white;
 }
 
-/* Smooth transitions for theme changes */
-.theme-transition {
-  @apply transition-all duration-300 ease-in-out;
+/* Example of how to style specific elements in dark mode */
+html.dark .text-dark-mode {
+  color: #bbb;
 }
-
-/* Global transition styles */
-body {
-  @apply transition-colors duration-300;
+html.dark .bg-dark-mode {
+  background-color: #333;
 }

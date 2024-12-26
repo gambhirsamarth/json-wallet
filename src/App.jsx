@@ -63,8 +63,7 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-between py-16 relative transition-theme
-      dark:bg-gray-900 dark:text-white">
+    <div className="min-h-screen flex flex-col justify-between py-16 relative transition-theme">
       <div className="liquid-background"></div>
 
       <Header />

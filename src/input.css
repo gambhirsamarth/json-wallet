@@ -30,7 +30,7 @@
 
 /* Custom Dark Mode Styles */
 html.dark .liquid-background {
-  background: linear-gradient(45deg, #0e2a47, #2c3e50, #8e44ad); /* Dark mode colors */
+  background: linear-gradient(45deg, #1B262C, #022C43, #053F5E); /* Dark mode colors */
   background-size: 400% 400%;
   animation: liquidMotion 20s ease infinite;
 }

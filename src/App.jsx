@@ -77,7 +77,7 @@ const App = () => {
       <div className="text-center px-8">
         <button
           onClick={() => setIsModalOpen(true)}
-          className="bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 
+          className="bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 
             text-gray-800 dark:text-white font-semibold px-8 py-3 rounded-xl 
             shadow-lg transition-colors"
         >

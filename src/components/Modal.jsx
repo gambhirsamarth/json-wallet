@@ -38,7 +38,7 @@ const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
 
     return (
       <div className="pl-4 border-l border-gray-200 dark:border-gray-600">
-        {Object.keys(data).map((key, index) => {
+        {Object.keys(data).map((key) => {
           const itemPath = path ? `${path}.${key}` : key;
           const value = data[key];
           const isCollapsible = typeof value === "object" && value !== null;
@@ -86,7 +86,7 @@ const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
       />
 
       <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 
-        w-full max-w-2xl min-h-[80vh] bg-white dark:bg-gray-800 rounded-2xl 
+        w-full max-w-2xl min-h-[80vh] bg-white dark:bg-gray-900 rounded-2xl 
         shadow-xl p-6 z-50 flex flex-col transition-colors">
         <button
           onClick={onClose}
@@ -109,9 +109,9 @@ const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
         ) : (
           <div className="space-y-4 max-h-[60vh] overflow-y-auto px-4">
             {Object.keys(wallet).map((label) => (
-              <div key={label} className="border border-gray-200 dark:border-gray-600 rounded-lg">
+              <div key={label} className="rounded-lg">
                 <div className="flex items-center justify-between px-4 py-3 
-                  bg-gray-50 dark:bg-gray-700 rounded-t-lg">
+                  bg-gray-100 dark:bg-gray-800 rounded-lg"> {/* Apply same background as AddJsonForm */}
                   <button
                     onClick={() => handleJsonClick(label)}
                     className="font-medium text-purple-700 dark:text-purple-400 
@@ -125,7 +125,7 @@ const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
                       onClick={() => handleCopy(label)}
                       className="p-2 hover:bg-gray-200 dark:hover:bg-gray-600 
                         rounded-lg transition-colors"
-                      title="Copy JSON"
+                      title="Copy"
                     >
                       {copiedLabel === label ? (
                         <Check className="w-4 h-4 text-green-600 dark:text-green-400" />
@@ -137,7 +137,7 @@ const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
                       onClick={() => onDelete(label)}
                       className="p-2 hover:bg-gray-200 dark:hover:bg-gray-600 
                         rounded-lg transition-colors"
-                      title="Delete JSON"
+                      title="Delete"
                     >
                       <Trash2 className="w-4 h-4 text-red-600 dark:text-red-400" />
                     </button>
@@ -145,7 +145,7 @@ const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
                 </div>
                 {selectedJson === label && (
                   <div className="bg-gray-100 dark:bg-gray-900 p-4 overflow-x-auto 
-                    text-sm border-t border-gray-200 dark:border-gray-600">
+                    text-sm border-t border-gray-200 dark:border-gray-600 rounded-b-lg"> {/* Ensure consistent border-radius */}
                     {renderJson(JSON.parse(wallet[label]))}
                   </div>
                 )}

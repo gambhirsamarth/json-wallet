@@ -111,7 +111,7 @@ const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
             {Object.keys(wallet).map((label) => (
               <div key={label} className="rounded-lg">
                 <div className="flex items-center justify-between px-4 py-3 
-                  bg-gray-100 dark:bg-gray-800 rounded-lg"> {/* Apply same background as AddJsonForm */}
+                  bg-gray-100 dark:bg-gray-800 rounded-lg">
                   <button
                     onClick={() => handleJsonClick(label)}
                     className="font-medium text-purple-700 dark:text-purple-400 
@@ -144,8 +144,8 @@ const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
                   </div>
                 </div>
                 {selectedJson === label && (
-                  <div className="bg-gray-100 dark:bg-gray-900 p-4 overflow-x-auto 
-                    text-sm border-t border-gray-200 dark:border-gray-600 rounded-b-lg"> {/* Ensure consistent border-radius */}
+                  <div className="bg-gray-100 dark:bg-gray-800 p-4 overflow-x-auto 
+                    text-sm rounded-lg my-1">
                     {renderJson(JSON.parse(wallet[label]))}
                   </div>
                 )}

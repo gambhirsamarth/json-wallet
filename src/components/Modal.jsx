@@ -21,6 +21,35 @@ const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
     }
   };
 
+  const JsonViewer = ({ content }) => {
+    const lines = JSON.stringify(JSON.parse(content), null, 2).split('\n');
+    
+    return (
+      <div className="bg-gray-900 p-4 rounded-lg my-1 font-mono text-sm">
+        <div className="flex">
+          {/* Line numbers */}
+          <div className="pr-4 select-none border-r border-gray-700 text-gray-500">
+            {lines.map((_, idx) => (
+              <div key={idx} className="text-right">
+                {idx + 1}
+              </div>
+            ))}
+          </div>
+          {/* Code content */}
+          <pre className="pl-4 flex-1 overflow-x-auto text-gray-200">
+            {lines.map((line, idx) => (
+              <div key={idx} className="hover:bg-gray-800">
+                <span className="text-purple-400">{line.match(/^(\s*)"([^"]+)"/)?.[2]}</span>
+                <span className="text-gray-200">{line.replace(/^(\s*)"([^"]+)"/, '').replace(/:\s*"([^"]+)"/, ': ')}</span>
+                <span className="text-green-400">{line.match(/:\s*"([^"]+)"/)?.[1]}</span>
+              </div>
+            ))}
+          </pre>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="fixed inset-0 z-50">
       <div
@@ -87,12 +116,7 @@ const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
                   </div>
                 </div>
                 {selectedJson === label && (
-                  <div className="bg-gray-100 dark:bg-gray-800 p-4 overflow-x-auto 
-                    text-sm rounded-lg my-1">
-                    <pre className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap break-words font-mono">
-                      {JSON.stringify(JSON.parse(wallet[label]), null, 2)}
-                    </pre>
-                  </div>
+                  <JsonViewer content={wallet[label]} />
                 )}
               </div>
             ))}

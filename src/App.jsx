@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import AddJsonForm from "./components/AddJsonForm";
 import Modal from "./components/Modal";
+import { Sun, Moon } from 'lucide-react';
 
 const App = () => {
   const [wallet, setWallet] = useState({});
@@ -92,14 +93,17 @@ const App = () => {
         onDelete={handleDeleteJson}
       />
 
-      <button
-        onClick={toggleDarkMode}
-        className="fixed bottom-8 right-8 bg-gray-800 dark:bg-white text-white 
-          dark:text-gray-800 p-3 rounded-full shadow-lg transition-transform 
-          transform hover:scale-105"
-      >
-        {isDarkMode ? '☀️' : '🌙'}
-      </button>
+<button
+      onClick={toggleDarkMode}
+      className="fixed bottom-8 right-8 bg-gray-800 dark:bg-white text-white 
+        dark:text-gray-800 p-3 rounded-full shadow-lg transition-transform 
+        transform hover:scale-105 flex items-center justify-center"
+      style={{ width: '50px', height: '50px' }}
+    >
+      <div className="w-full h-full flex items-center justify-center">
+        {isDarkMode ? <Sun size={24} /> : <Moon size={24} />}
+      </div>
+    </button>
     </div>
   );
 };

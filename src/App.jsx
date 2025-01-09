@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import AddJsonForm from "./components/AddJsonForm";
 import Modal from "./components/Modal";
-import { Sun, Moon } from 'lucide-react';
+import { Sun, Moon } from "lucide-react";
 
 const App = () => {
   const [wallet, setWallet] = useState({});
@@ -14,11 +14,11 @@ const App = () => {
     const darkModePreference = localStorage.getItem("dark-mode");
     if (darkModePreference === "true") {
       setIsDarkMode(true);
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add("dark");
     }
 
     // Load wallet data
-    const keys = Object.keys(localStorage).filter(key => 
+    const keys = Object.keys(localStorage).filter((key) =>
       key.startsWith("jsonWallet_")
     );
     const loadedWallet = keys.reduce((acc, key) => {
@@ -33,12 +33,12 @@ const App = () => {
     const newDarkModeState = !isDarkMode;
     setIsDarkMode(newDarkModeState);
     localStorage.setItem("dark-mode", newDarkModeState);
-    
+
     // Toggle dark class on root element
     if (newDarkModeState) {
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove("dark");
     }
   };
 
@@ -49,13 +49,13 @@ const App = () => {
     }
 
     localStorage.setItem(`jsonWallet_${label}`, json);
-    setWallet(prev => ({ ...prev, [label]: json }));
+    setWallet((prev) => ({ ...prev, [label]: json }));
   };
 
   const handleDeleteJson = (label) => {
     if (window.confirm(`Are you sure you want to delete "${label}"?`)) {
       localStorage.removeItem(`jsonWallet_${label}`);
-      setWallet(prev => {
+      setWallet((prev) => {
         const updatedWallet = { ...prev };
         delete updatedWallet[label];
         return updatedWallet;
@@ -82,7 +82,8 @@ const App = () => {
             text-gray-800 dark:text-white font-semibold px-8 py-3 rounded-xl 
             shadow-lg transition-colors"
         >
-          View Wallet {Object.keys(wallet).length > 0 && `(${Object.keys(wallet).length})`}
+          View Wallet{" "}
+          {Object.keys(wallet).length > 0 && `(${Object.keys(wallet).length})`}
         </button>
       </div>
 
@@ -93,17 +94,17 @@ const App = () => {
         onDelete={handleDeleteJson}
       />
 
-<button
-      onClick={toggleDarkMode}
-      className="fixed bottom-8 right-8 bg-gray-800 dark:bg-white text-white 
+      <button
+        onClick={toggleDarkMode}
+        className="fixed bottom-8 right-8 bg-gray-800 dark:bg-white text-white 
         dark:text-gray-800 p-3 rounded-full shadow-lg transition-transform 
         transform hover:scale-105 flex items-center justify-center"
-      style={{ width: '50px', height: '50px' }}
-    >
-      <div className="w-full h-full flex items-center justify-center">
-        {isDarkMode ? <Sun size={24} /> : <Moon size={24} />}
-      </div>
-    </button>
+        style={{ width: "50px", height: "50px" }}
+      >
+        <div className="w-full h-full flex items-center justify-center">
+          {isDarkMode ? <Sun size={24} /> : <Moon size={24} />}
+        </div>
+      </button>
     </div>
   );
 };

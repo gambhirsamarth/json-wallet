@@ -4,27 +4,48 @@
 
 /* Liquid Background animation with slower transition */
 @keyframes liquidMotion {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
+  0% {
+    background-position: 0% 50%;
   }
-  
-  /* Apply the liquid gradient to the entire background */
-  .liquid-background {
-    position: fixed;  /* Keep it behind everything */
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, #7e4fe2, #26c6b7, #f39c9e); /* Previous color scheme */
-    background-size: 400% 400%;
-    animation: liquidMotion 20s ease infinite; /* Slowed down to 20s */
-    z-index: -1;  /* Position behind all content */
+  50% {
+    background-position: 100% 50%;
   }
-  
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Apply the liquid gradient to the entire background */
+.liquid-background {
+  position: fixed;  /* Keep it behind everything */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, #7e4fe2, #26c6b7, #f39c9e); /* Light mode colors */
+  background-size: 400% 400%;
+  animation: liquidMotion 20s ease infinite; /* Slowed down to 20s */
+  z-index: -1;  /* Position behind all content */
+}
+
+/* Custom Dark Mode Styles */
+html.dark .liquid-background {
+  background: linear-gradient(45deg, #1B262C, #022C43, #053F5E); /* Dark mode colors */
+  background-size: 400% 400%;
+  animation: liquidMotion 20s ease infinite;
+}
+
+/* Additional Dark Mode Styles */
+html.dark {
+  /* Set background and text color for the whole page */
+  background-color: #121212;
+  color: white;
+}
+
+/* Example of how to style specific elements in dark mode */
+html.dark .text-dark-mode {
+  color: #bbb;
+}
+html.dark .bg-dark-mode {
+  background-color: #333;
+}

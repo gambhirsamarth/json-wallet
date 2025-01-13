@@ -22,32 +22,78 @@ const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
   };
 
   const JsonViewer = ({ content }) => {
-    const lines = JSON.stringify(JSON.parse(content), null, 2).split('\n');
-    
-    return (
-      <div className="bg-gray-900 p-4 rounded-lg my-1 font-mono text-sm">
-        <div className="flex">
-          {/* Line numbers */}
-          <div className="pr-4 select-none border-r border-gray-700 text-gray-500">
-            {lines.map((_, idx) => (
-              <div key={idx} className="text-right">
-                {idx + 1}
-              </div>
-            ))}
+    try {
+      // Parse and re-stringify the JSON with proper indentation
+      const formattedJson = JSON.stringify(JSON.parse(content), null, 2);
+      const lines = formattedJson.split('\n');
+
+      return (
+        <div className="bg-gray-900 p-4 rounded-lg my-1">
+          <div className="flex">
+            {/* Line numbers */}
+            <div className="pr-4 select-none border-r border-gray-700 text-gray-500">
+              {lines.map((_, i) => (
+                <div key={i} className="text-right font-mono text-sm leading-6">
+                  {i + 1}
+                </div>
+              ))}
+            </div>
+            {/* Code content */}
+            <pre className="pl-4 flex-1 overflow-x-auto font-mono text-sm">
+              <code>
+                {lines.map((line, i) => {
+                  // Match the different parts of each line
+                  const keyMatch = line.match(/^(\s*)"(.+)":/);
+                  const valueMatch = line.match(/:\s*"([^"]+)"/);
+                  const numberMatch = line.match(/:\s*(-?\d+\.?\d*)/);
+                  const booleanMatch = line.match(/:\s*(true|false|null)(,?)$/);
+                  let formattedLine = line;
+
+                  if (keyMatch) {
+                    formattedLine = formattedLine.replace(
+                      /"(.+)":/,
+                      '<span class="text-purple-400">"$1"</span>:'
+                    );
+                  }
+                  if (valueMatch) {
+                    formattedLine = formattedLine.replace(
+                      /:\s*"([^"]+)"/,
+                      ': <span class="text-green-400">"$1"</span>'
+                    );
+                  }
+                  if (numberMatch) {
+                    formattedLine = formattedLine.replace(
+                      /(-?\d+\.?\d*)/,
+                      '<span class="text-yellow-400">$1</span>'
+                    );
+                  }
+                  if (booleanMatch) {
+                    formattedLine = formattedLine.replace(
+                      /(true|false|null)/,
+                      '<span class="text-blue-400">$1</span>'
+                    );
+                  }
+
+                  return (
+                    <div
+                      key={i}
+                      className="leading-6 hover:bg-gray-800"
+                      dangerouslySetInnerHTML={{ __html: formattedLine }}
+                    />
+                  );
+                })}
+              </code>
+            </pre>
           </div>
-          {/* Code content */}
-          <pre className="pl-4 flex-1 overflow-x-auto text-gray-200">
-            {lines.map((line, idx) => (
-              <div key={idx} className="hover:bg-gray-800">
-                <span className="text-purple-400">{line.match(/^(\s*)"([^"]+)"/)?.[2]}</span>
-                <span className="text-gray-200">{line.replace(/^(\s*)"([^"]+)"/, '').replace(/:\s*"([^"]+)"/, ': ')}</span>
-                <span className="text-green-400">{line.match(/:\s*"([^"]+)"/)?.[1]}</span>
-              </div>
-            ))}
-          </pre>
         </div>
-      </div>
-    );
+      );
+    } catch (err) {
+      return (
+        <div className="bg-gray-900 p-4 rounded-lg my-1 text-red-400 font-mono text-sm">
+          Invalid JSON
+        </div>
+      );
+    }
   };
 
   return (

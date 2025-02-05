@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Copy, Trash2, Check } from "lucide-react";
+import { Copy, Trash2, Check, Search } from "lucide-react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { nightOwl  } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { nightOwl } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
   const [selectedJson, setSelectedJson] = useState(null);
   const [copiedLabel, setCopiedLabel] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   if (!isOpen) return null;
 
@@ -25,15 +26,13 @@ const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
 
   const JsonViewer = ({ content }) => {
     try {
-      // Parse and re-stringify the JSON with proper indentation
       const formattedJson = JSON.stringify(JSON.parse(content), null, 2);
-
       return (
         <div className="bg-gray-900 p-4 rounded-lg my-1 overflow-auto max-h-64">
           <SyntaxHighlighter
             language="json"
             style={nightOwl}
-            showLineNumbers={true}
+            showLineNumbers
             lineNumberStyle={{ color: "#999", fontSize: "0.75rem" }}
             customStyle={{
               backgroundColor: "transparent",
@@ -53,6 +52,11 @@ const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
       );
     }
   };
+
+  // Filter JSONs based on search query
+  const filteredWallet = Object.keys(wallet).filter((label) =>
+    label.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="fixed inset-0 z-50">
@@ -82,21 +86,30 @@ const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
           Your JSON Wallet
         </h2>
 
+        {/* Search Bar */}
+        <div className="px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center mb-4">
+          <Search className="text-gray-500 dark:text-gray-400 w-5 h-5 mr-2" />
+          <input
+            type="text"
+            placeholder="Search JSONs..."
+            className="w-full p-2 bg-transparent text-gray-900 dark:text-white focus:outline-none"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+
         {/* Wallet Content */}
-        {Object.keys(wallet).length === 0 ? (
+        {filteredWallet.length === 0 ? (
           <div className="flex-1 flex items-center justify-center">
             <p className="text-gray-500 dark:text-gray-400 text-lg">
-              Your wallet is empty. Add some JSONs to get started!
+              No JSONs found.
             </p>
           </div>
         ) : (
           <div className="space-y-4 max-h-[60vh] overflow-y-auto px-4">
-            {Object.keys(wallet).map((label) => (
+            {filteredWallet.map((label) => (
               <div key={label} className="rounded-lg">
-                <div
-                  className="flex items-center justify-between px-4 py-3 
-                  bg-gray-100 dark:bg-gray-800 rounded-lg"
-                >
+                <div className="flex items-center justify-between px-4 py-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
                   {/* JSON Label */}
                   <button
                     onClick={() => handleJsonClick(label)}
@@ -136,7 +149,9 @@ const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
                 </div>
 
                 {/* JSON Viewer */}
-                {selectedJson === label && <JsonViewer content={wallet[label]} />}
+                {selectedJson === label && (
+                  <JsonViewer content={wallet[label]} />
+                )}
               </div>
             ))}
           </div>

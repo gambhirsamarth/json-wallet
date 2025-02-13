@@ -28,7 +28,7 @@ const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
     try {
       const formattedJson = JSON.stringify(JSON.parse(content), null, 2);
       return (
-        <div className="bg-gray-900 p-4 rounded-lg my-1 overflow-auto max-h-64">
+        <div className="bg-gray-900 p-4 rounded-lg my-1 overflow-auto max-h-64 scrollbar-custom">
           <SyntaxHighlighter
             language="json"
             style={nightOwl}
@@ -106,7 +106,7 @@ const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
             </p>
           </div>
         ) : (
-          <div className="space-y-4 max-h-[60vh] overflow-y-auto px-4">
+          <div className="space-y-4 max-h-[60vh] overflow-y-auto px-4 scrollbar-custom">
             {filteredWallet.map((label) => (
               <div key={label} className="rounded-lg">
                 <div className="flex items-center justify-between px-4 py-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
@@ -157,6 +157,31 @@ const Modal = ({ isOpen, onClose, wallet, onDelete }) => {
           </div>
         )}
       </div>
+
+      <style jsx global>{`
+        .scrollbar-custom::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        .scrollbar-custom::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        .scrollbar-custom::-webkit-scrollbar-thumb {
+          background-color: rgba(156, 163, 175, 0.3);
+          border-radius: 4px;
+        }
+
+        .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+          background-color: rgba(156, 163, 175, 0.5);
+        }
+
+        /* For Firefox */
+        .scrollbar-custom {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(156, 163, 175, 0.3) transparent;
+        }
+      `}</style>
     </div>
   );
 };

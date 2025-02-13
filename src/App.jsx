@@ -98,7 +98,7 @@ const App = () => {
         onClick={toggleDarkMode}
         className="fixed bottom-8 right-8 bg-gray-800 dark:bg-white text-white 
         dark:text-gray-800 p-3 rounded-full shadow-lg transition-transform 
-        transform hover:scale-105 flex items-center justify-center"
+        transform hover:scale-105 flex items-center justify-center z-50"
         style={{ width: "50px", height: "50px" }}
       >
         <div className="w-full h-full flex items-center justify-center">

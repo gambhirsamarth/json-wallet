@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Save, AlignJustify } from "lucide-react";
+import { Save, Code } from "lucide-react";
 
 const AddJsonForm = ({ onAdd }) => {
   const [label, setLabel] = useState("");
   const [json, setJson] = useState("");
-  const [formattedJson, setFormattedJson] = useState("");
   const [isValidJson, setIsValidJson] = useState(true);
 
   useEffect(() => {
@@ -120,7 +119,7 @@ const AddJsonForm = ({ onAdd }) => {
             className="p-2 rounded-lg transition-colors"
             title="Format"
           >
-            <AlignJustify className="w-5 h-5 text-blue-500 dark:text-blue-400" />
+            <Code className="w-5 h-5 text-blue-500 dark:text-blue-400" />
           </button>
         </div>
       </div>
